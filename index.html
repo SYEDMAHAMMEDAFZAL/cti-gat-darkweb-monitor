@@ -1,0 +1,835 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aegis-CTI | Cyber Threat Intelligence Framework using Graph Attention Networks</title>
+  <meta name="description" content="State-of-the-art Cyber Threat Intelligence Framework utilizing Graph Attention Networks (GAT) for Dark Web Activity Monitoring, Tor hidden service interception, and threat actor attribution.">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- ========================================================================
+       TOP HEADER & COMMAND BAR
+       ======================================================================== -->
+  <header class="header-bar" role="banner">
+    <div class="brand-wrapper">
+      <div class="brand-logo-icon" aria-hidden="true">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="9"/>
+          <path d="M12 3v18"/>
+          <path d="M3 12h18"/>
+          <circle cx="12" cy="12" r="3" fill="currentColor"/>
+        </svg>
+      </div>
+      <div class="brand-titles">
+        <h1>
+          AEGIS-CTI
+          <span class="badge-gat">GAT NEURAL ENGINE v2.4</span>
+        </h1>
+        <div class="brand-subtitle">Graph Attention Networks for Dark Web Activity Monitoring</div>
+      </div>
+    </div>
+
+    <!-- Navigation Views -->
+    <nav class="nav-tabs" aria-label="Main Navigation">
+      <button class="nav-btn active" data-view="soc" id="navSocBtn">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+        SOC Activity Monitor
+        <span class="pill-counter" id="navAlertCount">5</span>
+      </button>
+
+      <button class="nav-btn" data-view="darkweb" id="navDarkwebBtn">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="m4.93 4.93 4.24 4.24"/><path d="m14.83 9.17 4.24-4.24"/><path d="m14.83 14.83 4.24 4.24"/><path d="m9.17 14.83-4.24 4.24"/></svg>
+        ShadowNet Tor Browser (.onion)
+      </button>
+
+      <button class="nav-btn" data-view="split" id="navSplitBtn">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M12 3v18"/></svg>
+        Dual Split Cockpit
+      </button>
+
+      <button class="nav-btn" data-view="specs" id="navSpecsBtn">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"/><path d="M6 6h10"/><path d="M6 10h10"/></svg>
+        Architecture & GAT Specs
+      </button>
+    </nav>
+
+    <!-- Header Actions & Telemetry -->
+    <div class="header-actions">
+      <div class="telemetry-status" title="Active Tor hidden service crawlers">
+        <span class="status-dot"></span>
+        <span>TOR CRAWLER: ONLINE</span>
+      </div>
+
+      <button class="btn-tactical" id="btnToggleAudio" title="Toggle tactical audio telemetry">
+        🔊 Audio: ON
+      </button>
+
+      <button class="btn-tactical primary" id="btnExportSTIX" title="Export STIX 2.1 Threat Intelligence Bundle">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Export STIX 2.1
+      </button>
+    </div>
+  </header>
+
+  <!-- ========================================================================
+       VIEW 1: CTI SECURITY ACTIVITY MONITOR (SOC COMMAND)
+       ======================================================================== -->
+  <main class="view-container active-view" id="view-soc">
+    <div class="soc-grid">
+      
+      <!-- Left Column: Metrics & Intercept Feed -->
+      <section class="soc-column">
+        
+        <!-- Metrics Summary -->
+        <div class="panel-card">
+          <div class="panel-card-header">
+            <span class="panel-title">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg>
+              GAT CTI Telemetry
+            </span>
+          </div>
+
+          <div class="metrics-row">
+            <div class="metric-stat-box">
+              <span class="label">Monitored .onion</span>
+              <span class="value">4,892</span>
+              <span class="meta">128 active scrapers</span>
+            </div>
+            <div class="metric-stat-box">
+              <span class="label">Graph Entities</span>
+              <span class="value">1,420</span>
+              <span class="meta">8,910 GAT edges</span>
+            </div>
+          </div>
+
+          <div class="metrics-row">
+            <div class="metric-stat-box">
+              <span class="label">Inference Latency</span>
+              <span class="value">14.2ms</span>
+              <span class="meta">4-Head Attention</span>
+            </div>
+            <div class="metric-stat-box">
+              <span class="label">High Anomalies</span>
+              <span class="value" id="statHighAnomalies" style="color: var(--accent-red);">12</span>
+              <span class="meta">Threshold α &gt; 0.85</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Activity Intercept Feed -->
+        <div class="panel-card" style="flex: 1;">
+          <div class="panel-card-header">
+            <span class="panel-title">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+              Dark Web Intercepts
+            </span>
+            <span style="font-family: var(--font-mono); font-size: 0.68rem; color: var(--accent-cyan);">LIVE FEED</span>
+          </div>
+
+          <div class="activity-feed-list" id="activityFeedList">
+            <!-- Dynamically populated by monitor.js -->
+          </div>
+        </div>
+
+      </section>
+
+      <!-- Center Column: GAT Neural Graph Explorer -->
+      <section class="soc-column">
+        <div class="panel-card" style="flex: 1; padding: 0.75rem;">
+          
+          <!-- Attention Head Controls -->
+          <div class="gat-controls-bar">
+            <div class="gat-heads-selector">
+              <span style="font-size: 0.7rem; font-family: var(--font-mono); color: var(--text-muted); margin-right: 4px;">GAT ATTENTION HEAD:</span>
+              <button class="head-chip active" data-head="0">Ensemble (All)</button>
+              <button class="head-chip" data-head="1">Head 1: Financial</button>
+              <button class="head-chip" data-head="2">Head 2: Exploit</button>
+              <button class="head-chip" data-head="3">Head 3: Attribution</button>
+              <button class="head-chip" data-head="4">Head 4: Target Risk</button>
+            </div>
+
+            <div style="font-size: 0.7rem; font-family: var(--font-mono); color: var(--text-muted);">
+              Edge Thickness = Attention Weight (α<sub>ij</sub>)
+            </div>
+          </div>
+
+          <!-- HTML5 Canvas Visualizer -->
+          <div class="canvas-wrapper">
+            <canvas id="gatCanvas"></canvas>
+
+            <!-- HUD Overlay -->
+            <div class="canvas-overlay-hud">
+              <div class="hud-line"><span>MODEL:</span> <span style="color:var(--accent-cyan);">Heterogeneous GAT (4 Heads)</span></div>
+              <div class="hud-line"><span>ATTENTION COEFF:</span> <span style="color:var(--text-main);">Softmax(LeakyReLU(a^T [Wh_i || Wh_j]))</span></div>
+              <div class="hud-line"><span>INTERACTION:</span> <span style="color:var(--text-muted);">Drag nodes | Scroll to Zoom | Click to inspect</span></div>
+            </div>
+
+            <!-- Canvas Quick Buttons -->
+            <div class="canvas-quick-actions">
+              <button class="canvas-btn" id="btnResetCanvas" title="Recenter Graph Viewport">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+              </button>
+            </div>
+
+            <!-- Graph Legend -->
+            <div class="canvas-overlay-legend">
+              <div class="legend-item"><span class="legend-dot" style="background:#c084fc;"></span> Threat Actor</div>
+              <div class="legend-item"><span class="legend-dot" style="background:#38bdf8;"></span> Onion Service</div>
+              <div class="legend-item"><span class="legend-dot" style="background:#ef4444;"></span> CVE / Exploit</div>
+              <div class="legend-item"><span class="legend-dot" style="background:#f59e0b;"></span> Crypto Wallet</div>
+              <div class="legend-item"><span class="legend-dot" style="background:#10b981;"></span> Target Org</div>
+              <div class="legend-item"><span class="legend-dot" style="background:#fb7185;"></span> Malware Hash</div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- Right Column: Intelligence Dossier & Mitigation -->
+      <section class="soc-column">
+        
+        <!-- Node Dossier Panel -->
+        <div class="panel-card dossier-card">
+          <div class="panel-card-header">
+            <span class="panel-title">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+              Threat Intelligence Dossier
+            </span>
+          </div>
+
+          <!-- Empty State -->
+          <div id="dossierEmptyState" class="dossier-empty">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            <div>Select any entity node in the GAT canvas to inspect attention weights and telemetry.</div>
+          </div>
+
+          <!-- Populated Dossier Content -->
+          <div id="dossierContentState" class="dossier-content" style="display: none;">
+            
+            <div class="dossier-header-badge">
+              <div>
+                <div class="dossier-node-title" id="dossierNodeTitle">-</div>
+                <div class="dossier-node-type" id="dossierNodeType">-</div>
+              </div>
+              <div style="text-align: right;">
+                <div style="font-size:0.65rem; color:var(--text-muted); font-family:var(--font-mono);">THREAT SCORE</div>
+                <div style="font-size:1.1rem; font-weight:700; color:var(--accent-red); font-family:var(--font-mono);" id="dossierThreatVal">-</div>
+              </div>
+            </div>
+
+            <!-- Threat Score Bar -->
+            <div class="threat-score-gauge-box">
+              <div style="display:flex; justify-content:space-between; font-size:0.68rem; font-family:var(--font-mono);">
+                <span style="color:var(--text-muted);">GAT Centrality Severity</span>
+                <span style="color:var(--accent-amber);">High Risk</span>
+              </div>
+              <div class="threat-score-gauge-bar">
+                <div class="threat-score-fill" id="dossierThreatFill"></div>
+              </div>
+            </div>
+
+            <!-- Intel Summary Details -->
+            <div style="font-size:0.75rem; color:var(--text-secondary); line-height:1.45; background:var(--bg-card); padding:8px 10px; border-radius:var(--radius-sm); border:1px solid var(--border-dim);" id="dossierDetails">
+              -
+            </div>
+
+            <!-- Feature Tensor Vector -->
+            <div>
+              <div style="font-size:0.7rem; font-family:var(--font-mono); color:var(--text-muted); margin-bottom:4px;">GAT NODE FEATURE EMBEDDING (8-DIM):</div>
+              <div id="dossierFeatureTensor" style="display:flex; flex-wrap:wrap;"></div>
+            </div>
+
+            <!-- Attention Neighbors -->
+            <div>
+              <div style="font-size:0.7rem; font-family:var(--font-mono); color:var(--text-muted); margin-bottom:6px;">CONNECTED GAT ATTENTION NEIGHBORS (α<sub>ij</sub>):</div>
+              <div class="attention-neighbors-list" id="dossierNeighborsList">
+                <!-- Dynamically populated -->
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Automated Mitigation Action Triggers -->
+        <div class="panel-card">
+          <div class="panel-card-header">
+            <span class="panel-title">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+              Mitigation Controls
+            </span>
+          </div>
+
+          <div style="display: flex; flex-direction: column; gap: 8px;">
+            <button class="btn-tactical primary" id="btnMitigateSiem" style="justify-content: flex-start;">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 12 2 2 4-4"/><circle cx="12" cy="12" r="10"/></svg>
+              Deploy SIEM Suricata Rule
+            </button>
+
+            <button class="btn-tactical" id="btnMitigateFirewall" style="justify-content: flex-start;">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="m9 9 6 6"/><path d="m15 9-6 6"/></svg>
+              Push IOC to Palo Alto / CrowdStrike
+            </button>
+
+            <button class="btn-tactical danger" id="btnFreezeCrypto" style="justify-content: flex-start;">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v12"/><path d="M17 10h-6a2 2 0 0 0 0 4h6"/></svg>
+              Flag Crypto Escrow in Chainalysis
+            </button>
+          </div>
+        </div>
+
+      </section>
+
+    </div>
+  </main>
+
+  <!-- ========================================================================
+       VIEW 2: SHADOWNET TOR DARK WEB BROWSER SIMULATOR
+       ======================================================================== -->
+  <section class="view-container" id="view-darkweb">
+    <div class="darkweb-browser-window">
+      
+      <!-- Tor Browser Chrome -->
+      <div class="browser-chrome">
+        
+        <!-- Tabs Row -->
+        <div class="browser-tabs-row">
+          <div class="browser-tab active" data-site="breachforums">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+            Breach Underground (v4.7)
+            <span class="browser-tab-close">&times;</span>
+          </div>
+
+          <div class="browser-tab" data-site="bazaar">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+            0-Day Exploit Bazaar
+            <span class="browser-tab-close">&times;</span>
+          </div>
+
+          <div class="browser-tab" data-site="lockbit">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            LockBit 3.0 Leak Vault
+            <span class="browser-tab-close">&times;</span>
+          </div>
+
+          <div class="browser-tab" data-site="mixer">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+            Crypto Mixer Tumbler
+            <span class="browser-tab-close">&times;</span>
+          </div>
+        </div>
+
+        <!-- Navigation Bar -->
+        <div class="browser-nav-bar">
+          <div class="browser-nav-buttons">
+            <button class="browser-icon-btn" id="dwBackBtn" title="Back">&larr;</button>
+            <button class="browser-icon-btn" id="dwFwdBtn" title="Forward">&rarr;</button>
+            <button class="browser-icon-btn" id="dwRefreshBtn" title="Reload onion page">&#8635;</button>
+          </div>
+
+          <div class="browser-url-bar">
+            <span class="onion-badge">TOR .ONION</span>
+            <input type="text" id="dwUrlInput" value="http://breachforums-v47x92kp.onion/threads" style="flex:1; background:transparent; border:none; color:#f1f5f9; outline:none; font-family:monospace; font-size:0.75rem;">
+          </div>
+
+          <div class="circuit-display" id="dwCircuitDisplay">
+            Guard: [DE] 185.220.101.5 ➔ Middle: [CH] 194.26.29.11 ➔ Exit: [IS] 46.227.67.102 ➔ Rend: .onion
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Browser Viewport Area -->
+      <div class="browser-viewport" id="dwViewport">
+
+        <!-- PAGE 1: BREACH UNDERGROUND FORUMS -->
+        <div class="darkweb-page active-page" id="page-breachforums">
+          <div class="darknet-banner">
+            <div>
+              <div class="darknet-banner-title">☠ BREACH UNDERGROUND // DATABASE AUCTIONS & ZERO-DAYS</div>
+              <div class="darknet-banner-sub">PGP Key ID: 0x98AF312C | Escrow mandatory for all trade &gt; 0.5 BTC</div>
+            </div>
+            <div class="onion-badge" style="font-size:0.75rem; padding:4px 10px;">ENCRYPTED FORUM v4.7</div>
+          </div>
+
+          <div class="darknet-security-warning">
+            ⚠️ NOTICE: All participants must communicate with PGP signatures. Honeypot traps and unverified exploits result in instant ban and wallet forfeiture.
+          </div>
+
+          <div class="darknet-grid">
+            
+            <!-- Threads List -->
+            <div>
+              <div style="font-size:0.8rem; font-weight:700; color:var(--text-secondary); text-transform:uppercase; margin-bottom:10px;">
+                Active Intercepted Threads & Listings
+              </div>
+
+              <div class="forum-threads-list" id="forumThreadsList">
+                
+                <div class="forum-thread-card" onclick="window.ctiApp.triggerDarkWebAlert({title:'PAN-OS Zero-Day Weaponized Exploit', actor:'LockBitSupp_v3', target:'Global_Defense_Logistics', cve:'CVE-2024-3400', severity:'critical', threatScore:96, type:'CVE_VULN'})">
+                  <div class="thread-tag-row">
+                    <span class="thread-tag exploit">ZERO-DAY RCE</span>
+                    <span class="thread-tag database">CVE-2024-3400</span>
+                    <span class="thread-tag ransomware">PAN-OS</span>
+                  </div>
+                  <div class="thread-title">[SELLING] Functional weaponized exploit chain for PAN-OS GlobalProtect (CVSS 10.0)</div>
+                  <div class="thread-snippet">Bypasses telemetry daemon, spawns root shell in under 1.2s. Verified against v11.1.2. Automated payload injection included. Escrow via Admin.</div>
+                  <div class="thread-footer">
+                    <span>Author: <span class="thread-actor">LockBitSupp_v3</span> (Level 5 Vendor)</span>
+                    <span>Price: 2.5 BTC</span>
+                    <span>8 mins ago</span>
+                  </div>
+                </div>
+
+                <div class="forum-thread-card" onclick="window.ctiApp.triggerDarkWebAlert({title:'Apex Fintech Database Dump 4.8M', actor:'ShinyHunters_Reseller', target:'Apex_Fintech_Holdings', cve:'DATA_LEAK', severity:'high', threatScore:87, type:'TARGET_ORG'})">
+                  <div class="thread-tag-row">
+                    <span class="thread-tag database">SQL DUMP</span>
+                    <span class="thread-tag ransomware">FINTECH</span>
+                  </div>
+                  <div class="thread-title">[AUCTION] 4,800,000 Verified Accounts from Apex Fintech Holdings (EU/UK)</div>
+                  <div class="thread-snippet">Columns: user_id, email, bcrypt_hash, iban, national_id, phone_number, last_login_ip. Sample data provided with PGP checksum.</div>
+                  <div class="thread-footer">
+                    <span>Author: <span class="thread-actor">ShinyHunters_Reseller</span></span>
+                    <span>Starting Bid: 1.2 BTC</span>
+                    <span>24 mins ago</span>
+                  </div>
+                </div>
+
+                <div class="forum-thread-card" onclick="window.ctiApp.triggerDarkWebAlert({title:'Ivanti Connect Secure Bypass POC', actor:'VoltTyphoon_Cell', target:'Critical_Infrastructure', cve:'CVE-2024-21887', severity:'critical', threatScore:91, type:'CVE_VULN'})">
+                  <div class="thread-tag-row">
+                    <span class="thread-tag exploit">AUTH BYPASS</span>
+                    <span class="thread-tag database">CVE-2024-21887</span>
+                  </div>
+                  <div class="thread-title">[EXPLOIT] Ivanti Connect Secure VPN Appliance Web Shell Dropper</div>
+                  <div class="thread-snippet">Python weaponizer using crafted HTTP POST requests. Successfully deployed against 42 enterprise targets. Proof-of-concept tested on build 22.6R2.</div>
+                  <div class="thread-footer">
+                    <span>Author: <span class="thread-actor">VoltTyphoon_Cell</span></span>
+                    <span>Price: 1.8 BTC</span>
+                    <span>1 hour ago</span>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+            <!-- Post New Threat Thread Form -->
+            <div>
+              <div class="post-threat-panel">
+                <div class="post-threat-title">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14"/><path d="M5 12h14"/></svg>
+                  Inject / Post Threat Thread
+                </div>
+                <p style="font-size:0.72rem; color:var(--text-muted); margin-bottom:12px;">
+                  Simulate a darknet threat actor publishing an exploit or data auction. Watch the GAT neural engine detect and recalculate attention weights in real-time!
+                </p>
+
+                <form id="dwNewPostForm">
+                  <div class="darknet-form-group">
+                    <label for="postTitleInput">Thread Title / Sale Headline</label>
+                    <input type="text" id="postTitleInput" class="darknet-input" placeholder="e.g., [ZERO-DAY] ActiveMQ RCE Exploit Kit with Cobalt Beacons" required>
+                  </div>
+
+                  <div class="darknet-form-group">
+                    <label for="postActorInput">Threat Actor Handle</label>
+                    <input type="text" id="postActorInput" class="darknet-input" value="LockBitSupp_v3">
+                  </div>
+
+                  <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
+                    <div class="darknet-form-group">
+                      <label for="postTargetInput">Victim / Target Asset</label>
+                      <input type="text" id="postTargetInput" class="darknet-input" value="Global_Defense_Logistics">
+                    </div>
+                    <div class="darknet-form-group">
+                      <label for="postCveInput">Vulnerability / CVE</label>
+                      <input type="text" id="postCveInput" class="darknet-input" value="CVE-2024-3400">
+                    </div>
+                  </div>
+
+                  <div class="darknet-form-group">
+                    <label for="postPriceInput">Demanded Price / Escrow</label>
+                    <input type="text" id="postPriceInput" class="darknet-input" value="2.4 BTC">
+                  </div>
+
+                  <div class="darknet-form-group">
+                    <label for="postSnippetInput">Listing Snippet / Details</label>
+                    <textarea id="postSnippetInput" class="darknet-textarea" placeholder="Describe the stolen assets or payload specifics..."></textarea>
+                  </div>
+
+                  <button type="submit" class="btn-tactical danger" style="width:100%; justify-content:center; padding:8px;">
+                    ⚡ Publish Thread to Darknet (Trigger GAT Ingestion)
+                  </button>
+                </form>
+              </div>
+
+              <!-- Terminal Scraper Console -->
+              <div style="background:#090c12; border:1px solid var(--border-darkweb); border-radius:var(--radius-sm); padding:10px; margin-top:12px;">
+                <div style="font-size:0.68rem; font-family:var(--font-mono); color:var(--accent-cyan); margin-bottom:6px; display:flex; justify-content:space-between;">
+                  <span>TOR DAEMON SCRAPER LOGS</span>
+                  <span style="color:var(--accent-emerald);">SYNCING</span>
+                </div>
+                <div id="dwRawTerminal" style="height:120px; overflow-y:auto;">
+                  <!-- Streamed by darkweb.js -->
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+
+        <!-- PAGE 2: 0-DAY EXPLOIT BAZAAR -->
+        <div class="darkweb-page" id="page-bazaar">
+          <div class="darknet-banner">
+            <div>
+              <div class="darknet-banner-title">⚡ 0-DAY EXPLOIT BAZAAR // ESCROW MARKETPLACE</div>
+              <div class="darknet-banner-sub">Automated multi-signature Bitcoin & Monero Escrow. 100% weaponized POCs.</div>
+            </div>
+            <div class="onion-badge" style="font-size:0.75rem; padding:4px 10px;">MARKET STATUS: ACTIVE</div>
+          </div>
+
+          <div class="market-products-grid">
+            
+            <div class="market-item-card">
+              <div>
+                <div class="market-item-title">Zero-Click iOS WebKit Remote Code Execution</div>
+                <div class="market-item-vendor">Vendor: DarkPink_Syndicate (Rep: 99.8%)</div>
+                <p style="font-size:0.74rem; color:var(--text-secondary); margin-bottom:10px;">
+                  Fully functional sandbox escape affecting iOS 17.4 through crafted font rasterization buffer overflow.
+                </p>
+              </div>
+              <div style="display:flex; justify-content:space-between; align-items:center; border-top:1px solid rgba(255,255,255,0.05); padding-top:8px;">
+                <span class="market-item-price">4.50 BTC</span>
+                <button class="btn-tactical primary" onclick="window.darkweb.purchaseItem('Zero-Click iOS WebKit RCE', '4.5 BTC', 'DarkPink_Syndicate')">Purchase via Escrow</button>
+              </div>
+            </div>
+
+            <div class="market-item-card">
+              <div>
+                <div class="market-item-title">Active Directory Golden Ticket Injector v3.2</div>
+                <div class="market-item-vendor">Vendor: NullBulge_Operative (Rep: 98.4%)</div>
+                <p style="font-size:0.74rem; color:var(--text-secondary); margin-bottom:10px;">
+                  Automated Kerberos TGT forgery using extracted KRBTGT NTLM hashes. Includes EDR evasion stealth packer.
+                </p>
+              </div>
+              <div style="display:flex; justify-content:space-between; align-items:center; border-top:1px solid rgba(255,255,255,0.05); padding-top:8px;">
+                <span class="market-item-price">1.85 BTC</span>
+                <button class="btn-tactical primary" onclick="window.darkweb.purchaseItem('Active Directory Golden Ticket Injector', '1.85 BTC', 'NullBulge_Operative')">Purchase via Escrow</button>
+              </div>
+            </div>
+
+            <div class="market-item-card">
+              <div>
+                <div class="market-item-title">SCADA Siemens S7-1500 PLC Firmware Exploit</div>
+                <div class="market-item-vendor">Vendor: VoltTyphoon_Brood (Rep: 100%)</div>
+                <p style="font-size:0.74rem; color:var(--text-secondary); margin-bottom:10px;">
+                  Industrial automation controller memory corruptor capable of halting turbine RPM safeguards.
+                </p>
+              </div>
+              <div style="display:flex; justify-content:space-between; align-items:center; border-top:1px solid rgba(255,255,255,0.05); padding-top:8px;">
+                <span class="market-item-price">6.20 BTC</span>
+                <button class="btn-tactical primary" onclick="window.darkweb.purchaseItem('SCADA Siemens PLC Exploit', '6.20 BTC', 'VoltTyphoon_Brood')">Purchase via Escrow</button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- PAGE 3: LOCKBIT 3.0 LEAK VAULT -->
+        <div class="darkweb-page" id="page-lockbit">
+          <div class="darknet-banner" style="border-color: rgba(239, 68, 68, 0.4);">
+            <div>
+              <div class="darknet-banner-title" style="color:var(--accent-red);">🔒 LOCKBIT 3.0 // EXTORTION PUBLICATION PORTAL</div>
+              <div class="darknet-banner-sub">Double-extortion repository. Deadlines are strict. Decryption keys destroyed upon timer expiry.</div>
+            </div>
+            <div class="onion-badge" style="background:rgba(239,68,68,0.2); border-color:var(--accent-red); color:#fca5a5;">LEAK PORTAL</div>
+          </div>
+
+          <div class="ransom-victim-card">
+            <div class="ransom-victim-header">
+              <div>
+                <div class="victim-name">Target: Global Defense Logistics LLC</div>
+                <div style="font-size:0.72rem; color:var(--text-muted); font-family:var(--font-mono);">Exfiltrated Volume: 1.4 TB (CAD Schematics, Personnel Dossiers, Defense Subcontracts)</div>
+              </div>
+              <div class="victim-timer countdown-timer">08:42:19</div>
+            </div>
+            <p style="font-size:0.75rem; color:var(--text-secondary); line-height:1.45; margin-bottom:10px;">
+              Negotiation breakdown. Management refused payment of 15.0 BTC. 100% of sensitive subcontracts will be published to the Tor network upon timer expiration.
+            </p>
+            <div style="display:flex; gap:8px;">
+              <button class="btn-tactical danger" onclick="window.ctiApp.triggerDarkWebAlert({title:'LockBit Ransom Countdown Alert: Defense Logistics', actor:'LockBitSupp_v3', target:'Global_Defense_Logistics', cve:'EXTORTION', severity:'critical', threatScore:98, type:'TARGET_ORG'})">
+                Inspect Stolen Archive Tree (GAT Trigger)
+              </button>
+            </div>
+          </div>
+
+          <div class="ransom-victim-card">
+            <div class="ransom-victim-header">
+              <div>
+                <div class="victim-name">Target: BioHealth Genomics Institute</div>
+                <div style="font-size:0.72rem; color:var(--text-muted); font-family:var(--font-mono);">Exfiltrated Volume: 450 GB (Clinical Trial Patient Data, Genetic Sequencing SQL)</div>
+              </div>
+              <div class="victim-timer countdown-timer">23:15:44</div>
+            </div>
+            <p style="font-size:0.75rem; color:var(--text-secondary); line-height:1.45; margin-bottom:10px;">
+              Double extortion phase 2. Proof files uploaded to decentralized Mega/IPFS bridges. Ransom demanded: 8.5 BTC.
+            </p>
+            <button class="btn-tactical" onclick="window.ctiApp.triggerDarkWebAlert({title:'BioHealth Genomics Extortion Intercept', actor:'LockBitSupp_v3', target:'BioHealth_Genomics_Corp', cve:'HEALTHCARE_RANSOM', severity:'high', threatScore:89, type:'TARGET_ORG'})">
+              Ingest Victim Telemetry
+            </button>
+          </div>
+        </div>
+
+        <!-- PAGE 4: CRYPTO MIXER TUMBLER -->
+        <div class="darkweb-page" id="page-mixer">
+          <div class="darknet-banner">
+            <div>
+              <div class="darknet-banner-title">🌪️ SHIELD TUMBLER // CRYPTOCURRENCY OBFUSCATION</div>
+              <div class="darknet-banner-sub">Zero-knowledge proof coin joins for BTC and XMR. Break blockchain heuristic graph links.</div>
+            </div>
+            <div class="onion-badge">MIXER PROTOCOL</div>
+          </div>
+
+          <div style="background:#141924; border:1px solid var(--border-darkweb); border-radius:var(--radius-sm); padding:1rem; max-width:600px;">
+            <div style="font-size:0.85rem; font-weight:700; color:var(--text-main); margin-bottom:8px;">Active Laundering Address Intercept</div>
+            <div style="font-family:var(--font-mono); font-size:0.78rem; color:#f59e0b; background:#090c12; padding:8px; border-radius:4px; margin-bottom:10px; word-break:break-all;">
+              Depository: 1F1tAaz5x1HUXrCNLbtMDqcw6o5GNn4xqX
+            </div>
+            <p style="font-size:0.75rem; color:var(--text-secondary); line-height:1.5; margin-bottom:12px;">
+              The GAT Head 1 (Financial Flow) tracks multi-hop UTXO splits and mixer addresses to re-attribute anonymized ransom payments back to core threat actor clusters.
+            </p>
+            <button class="btn-tactical primary" onclick="window.ctiApp.triggerDarkWebAlert({title:'Cryptocurrency Tumbler Hop Flagged', actor:'LockBitSupp_v3', target:'Mixer_Relay', cve:'FINANCIAL_LAUNDERING', severity:'high', threatScore:88, type:'CRYPTO_WALLET'})">
+              Run GAT Financial Attribution Trace
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================================================
+       VIEW 3: DUAL SPLIT COCKPIT (SIDE-BY-SIDE INTERCEPT & SOC DETECTIONS)
+       ======================================================================== -->
+  <section class="view-container" id="view-split">
+    <div class="split-cockpit-grid">
+      
+      <!-- Left Side: Dark Web Intercept Console -->
+      <div class="split-side">
+        <div class="split-side-header">
+          <span class="split-side-title">
+            <span style="color:#c084fc;">🌐</span>
+            Live Dark Web Intercept Console
+          </span>
+          <span class="onion-badge">ACTIVE INTERCEPT</span>
+        </div>
+
+        <div class="split-side-body">
+          <div style="background:#131824; padding:10px; border-radius:4px; border:1px solid var(--border-darkweb);">
+            <div style="font-size:0.78rem; font-weight:700; color:var(--text-main); margin-bottom:4px;">Inject Simulated Dark Web Threat Post</div>
+            <p style="font-size:0.72rem; color:var(--text-muted); margin-bottom:8px;">
+              Type a custom breach or 0-day listing. Submit to watch the right panel GAT neural engine immediately react!
+            </p>
+
+            <form id="splitNewPostForm">
+              <input type="text" id="splitPostTitleInput" class="darknet-input" placeholder="e.g., [CRITICAL] Ivanti VPN Auth Bypass Zero-Day" style="margin-bottom:6px;" required>
+              <div style="display:grid; grid-template-columns:1fr 1fr; gap:6px; margin-bottom:6px;">
+                <input type="text" id="splitPostTargetInput" class="darknet-input" placeholder="Target e.g. National_Power_Grid">
+                <input type="text" id="splitPostCveInput" class="darknet-input" placeholder="CVE-2024-XXXX">
+              </div>
+              <button type="submit" class="btn-tactical danger" style="width:100%; justify-content:center; padding:6px;">
+                Publish & Trigger Real-Time GAT Attribution
+              </button>
+            </form>
+          </div>
+
+          <div>
+            <div style="font-size:0.75rem; font-weight:700; color:var(--text-secondary); text-transform:uppercase; margin-bottom:6px;">
+              Recent Underground Intercept Chatter
+            </div>
+            
+            <div class="forum-thread-card" onclick="window.ctiApp.triggerDarkWebAlert({title:'PAN-OS Zero-Day Weaponized Exploit', actor:'LockBitSupp_v3', target:'Global_Defense_Logistics', cve:'CVE-2024-3400', severity:'critical', threatScore:96, type:'CVE_VULN'})">
+              <div class="thread-tag-row">
+                <span class="thread-tag exploit">ZERO-DAY</span>
+                <span class="thread-tag database">CVE-2024-3400</span>
+              </div>
+              <div class="thread-title">Weaponized exploit chain for PAN-OS GlobalProtect</div>
+              <div class="thread-footer">
+                <span>Vendor: <span class="thread-actor">LockBitSupp_v3</span></span>
+                <span>2.5 BTC</span>
+              </div>
+            </div>
+
+            <div class="forum-thread-card" style="margin-top:8px;" onclick="window.ctiApp.triggerDarkWebAlert({title:'Apex Fintech Database Dump 4.8M', actor:'ShinyHunters_Reseller', target:'Apex_Fintech_Holdings', cve:'DATA_LEAK', severity:'high', threatScore:87, type:'TARGET_ORG'})">
+              <div class="thread-tag-row">
+                <span class="thread-tag database">SQL DUMP</span>
+              </div>
+              <div class="thread-title">4.8M Records from Apex Fintech Holdings</div>
+              <div class="thread-footer">
+                <span>Vendor: <span class="thread-actor">ShinyHunters_Reseller</span></span>
+                <span>1.2 BTC</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Side: Real-Time GAT Correlation & SOC Alerts -->
+      <div class="split-side">
+        <div class="split-side-header">
+          <span class="split-side-title">
+            <span style="color:var(--accent-cyan);">🛡️</span>
+            GAT Neural Engine & SOC Intercept Correlation
+          </span>
+          <span style="font-family:var(--font-mono); font-size:0.68rem; color:var(--accent-emerald);">CORRELATING LIVE</span>
+        </div>
+
+        <div class="split-side-body">
+          <!-- GAT Canvas Mirror in Split View -->
+          <div style="background:#0a0e17; border:1px solid var(--border-dim); border-radius:4px; height:220px; overflow:hidden;">
+            <canvas id="splitGatCanvas" style="width:100%; height:100%;"></canvas>
+          </div>
+
+          <div>
+            <div style="font-size:0.75rem; font-weight:700; color:var(--text-secondary); text-transform:uppercase; margin-bottom:6px;">
+              Live GAT Attention Correlation Stream
+            </div>
+            <div id="splitCorrelationFeed">
+              <div style="background:#141a27; border:1px solid var(--border-dim); border-left:3px solid var(--accent-cyan); border-radius:4px; padding:8px; font-size:0.74rem; margin-bottom:6px;">
+                <div style="display:flex; justify-content:space-between; margin-bottom:2px;">
+                  <span style="color:var(--accent-cyan); font-weight:700;">GAT HIGH-ATTENTION ALERT</span>
+                  <span style="color:var(--text-muted); font-family:monospace;">INITIALIZED</span>
+                </div>
+                <div><strong>Node:</strong> CVE-2024-3400 (CVE_VULN)</div>
+                <div style="color:#38bdf8;">Attention Score α = 0.962 (Correlated across Head 2 & 4 with Global_Defense_Logistics)</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ========================================================================
+       VIEW 4: ARCHITECTURE & GAT MATHEMATICAL SPECIFICATIONS
+       ======================================================================== -->
+  <section class="view-container" id="view-specs">
+    <div class="docs-container">
+      
+      <div class="docs-hero">
+        <h2>Cyber Threat Intelligence Framework using Graph Attention Networks (GAT)</h2>
+        <p>
+          Dark web monitoring requires modeling complex heterogeneous relationships between pseudonymous threat actors, Tor hidden services, cryptocurrency laundering wallets, weaponized CVE exploits, and corporate target assets. This framework applies multi-head Graph Attention Networks (GAT) to compute anisotropic attention coefficients over irregular threat topologies.
+        </p>
+      </div>
+
+      <div class="docs-grid">
+        
+        <div class="docs-card">
+          <h3>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"/><path d="M6 6h10"/><path d="M6 10h10"/></svg>
+            1. Mathematical Attention Mechanism
+          </h3>
+          <p>
+            Unlike traditional GCNs that apply static isotropic normalization based on node degree, GAT dynamically assigns importance weights $\alpha_{ij}$ to adjacent nodes based on feature embeddings:
+          </p>
+
+          <div class="math-formula-box">
+            e_{ij} = \text{LeakyReLU}\left(\mathbf{a}^T [\mathbf{W}h_i \,||\, \mathbf{W}h_j]\right)
+          </div>
+
+          <p>Softmax normalization across the neighborhood $\mathcal{N}_i$ of node $i$:</p>
+
+          <div class="math-formula-box">
+            \alpha_{ij} = \frac{\exp\left(\text{LeakyReLU}\left(\mathbf{a}^T [\mathbf{W}h_i \,||\, \mathbf{W}h_j]\right)\right)}{\sum_{k \in \mathcal{N}_i} \exp\left(\text{LeakyReLU}\left(\mathbf{a}^T [\mathbf{W}h_i \,||\, \mathbf{W}h_k]\right)\right)}
+          </div>
+
+          <p>Multi-head attention aggregation ($K = 4$ independent attention mechanisms):</p>
+
+          <div class="math-formula-box">
+            h_i' = \sigma\left(\frac{1}{K}\sum_{k=1}^K \sum_{j \in \mathcal{N}_i} \alpha_{ij}^{(k)} \mathbf{W}_k h_j\right)
+          </div>
+        </div>
+
+        <div class="docs-card">
+          <h3>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+            2. Heterogeneous Entity Taxonomy
+          </h3>
+          <p>
+            The intelligence graph incorporates 6 distinct node entities and bidirectional relational edges:
+          </p>
+          <ul class="spec-list">
+            <li><strong>Threat Actors:</strong> Pseudonymous hacker handles, ransomware syndicate affiliates, APT groups.</li>
+            <li><strong>Onion Services:</strong> Tor v3 hidden services, breach auction forums, PGP-signed marketplaces.</li>
+            <li><strong>Crypto Wallets:</strong> Bitcoin & Monero addresses, mixer hops, extortion escrow deposit ledgers.</li>
+            <li><strong>CVE Vulnerabilities:</strong> Zero-day and N-day CVSS vulnerability identifiers with exploit maturity.</li>
+            <li><strong>Target Organizations:</strong> Defense, fintech, healthcare enterprises referenced in leak auctions.</li>
+            <li><strong>Malware Hashes:</strong> SHA-256 signatures of loaders, beacons, stealers, and memory inject payloads.</li>
+          </ul>
+        </div>
+
+        <div class="docs-card">
+          <h3>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+            3. Multi-Head Attention Specialization
+          </h3>
+          <p>
+            Each of the 4 attention heads focuses on a distinct dimension of cyber threat intelligence:
+          </p>
+          <ul class="spec-list">
+            <li><strong>Head 1 (Financial Flow):</strong> Projects heavy attention on cryptocurrency transfers, escrow deposits, and tumbling hops between actors and markets.</li>
+            <li><strong>Head 2 (Exploit Propagation):</strong> Focuses on CVE discussions, weaponized exploit code listings, and malware payload dropper links.</li>
+            <li><strong>Head 3 (Infrastructure Attribution):</strong> Prioritizes hidden service hosting infrastructure, shared PGP fingerprints, and cross-forum handles.</li>
+            <li><strong>Head 4 (Target Infiltration Risk):</strong> Focuses on exfiltrated data dumps and organizational vulnerability exposure.</li>
+          </ul>
+        </div>
+
+        <div class="docs-card">
+          <h3>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            4. Real-time CTI Pipeline & Mitigations
+          </h3>
+          <p>
+            When an intercept is crawled on the dark web:
+          </p>
+          <ul class="spec-list">
+            <li>NLP entity extractors parse CVE IDs, target names, and crypto addresses.</li>
+            <li>The dynamic graph inserts candidate nodes and calculates forward-pass attention weights.</li>
+            <li>If attention weights $\alpha_{ij} > 0.85$ connect an actor to an enterprise asset via a weaponized CVE, a Critical Anomaly alert is emitted.</li>
+            <li>Automated mitigation exports Suricata SIEM network signatures and STIX 2.1 JSON threat bundles.</li>
+          </ul>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ========================================================================
+       MODAL DIALOG (STIX 2.1 & SIEM RULES)
+       ======================================================================== -->
+  <div class="modal-backdrop" id="genericModal">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <div class="modal-title" id="modalTitle">Threat Intel Modal</div>
+        <button class="btn-tactical" id="modalCloseBtn">&times;</button>
+      </div>
+      <div class="modal-body" id="modalBody"></div>
+      <div class="modal-footer">
+        <button class="btn-tactical primary" onclick="document.getElementById('genericModal').classList.remove('show')">Done</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- Scripts -->
+  <script src="js/gat-engine.js"></script>
+  <script src="js/darkweb.js"></script>
+  <script src="js/monitor.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

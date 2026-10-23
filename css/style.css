@@ -1,0 +1,1373 @@
+/* ==========================================================================
+   CYBER THREAT INTELLIGENCE (CTI) FRAMEWORK - GRAPH ATTENTION NETWORKS (GAT)
+   DARK WEB ACTIVITY MONITORING & SIMULATION SYSTEM
+   Design: Muted Tactical SOC Dark Theme (WCAG AA Compliant, No Vibrating Colors)
+   ========================================================================== */
+
+:root {
+  /* Surface & Base Colors (Muted Obsidian / Slate Carbon) */
+  --bg-primary: #0a0d14;
+  --bg-secondary: #101522;
+  --bg-card: #151c2d;
+  --bg-card-hover: #1b2438;
+  --bg-elevated: #1f293d;
+  --bg-terminal: #070a0f;
+  
+  /* Darkweb Browser Theming (Muted Slate & Deep Charcoal) */
+  --bg-darkweb-browser: #11141c;
+  --bg-darkweb-card: #161b26;
+  --border-darkweb: #2a3346;
+  
+  /* Border & Separators */
+  --border-dim: #1e2738;
+  --border-subtle: #29354d;
+  --border-focus: #3b82f6;
+
+  /* Typography Colors (High Contrast, Soft Whites & Slate Mutes) */
+  --text-main: #f1f5f9;
+  --text-secondary: #94a3b8;
+  --text-muted: #64748b;
+  --text-inverse: #0a0d14;
+
+  /* Muted Cyber Threat Intelligence Accents (Tactical, Non-Vibrant) */
+  --accent-cyan: #38bdf8;
+  --accent-cyan-dim: rgba(56, 189, 248, 0.12);
+  --accent-blue: #60a5fa;
+  --accent-indigo: #818cf8;
+  --accent-amber: #f59e0b;
+  --accent-amber-dim: rgba(245, 158, 11, 0.12);
+  --accent-red: #ef4444;
+  --accent-red-dim: rgba(239, 68, 68, 0.14);
+  --accent-emerald: #10b981;
+  --accent-emerald-dim: rgba(16, 185, 129, 0.12);
+  --accent-purple: #a855f7;
+  --accent-purple-dim: rgba(168, 85, 247, 0.14);
+
+  /* Fonts */
+  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+
+  /* Transitions & Shadows */
+  --transition-fast: 0.15s ease;
+  --transition-normal: 0.25s ease;
+  --shadow-panel: 0 4px 20px rgba(0, 0, 0, 0.45);
+  --shadow-elevation: 0 10px 30px rgba(0, 0, 0, 0.6);
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 10px;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  background-color: var(--bg-primary);
+  color: var(--text-main);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  line-height: 1.5;
+  overflow-x: hidden;
+  color-scheme: dark;
+}
+
+/* Custom Tactical Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-primary);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border-subtle);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
+}
+
+/* ==========================================================================
+   APP HEADER & NAVIGATION
+   ========================================================================== */
+.header-bar {
+  background-color: var(--bg-secondary);
+  border-bottom: 1px solid var(--border-dim);
+  padding: 0 1.5rem;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.brand-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.brand-logo-icon {
+  width: 32px;
+  height: 32px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--accent-cyan);
+}
+
+.brand-titles h1 {
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--text-main);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.brand-titles h1 .badge-gat {
+  font-size: 0.65rem;
+  background: var(--accent-cyan-dim);
+  color: var(--accent-cyan);
+  border: 1px solid rgba(56, 189, 248, 0.3);
+  padding: 2px 6px;
+  border-radius: 3px;
+  font-family: var(--font-mono);
+}
+
+.brand-subtitle {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+}
+
+.nav-tabs {
+  display: flex;
+  align-items: center;
+  background: var(--bg-primary);
+  border: 1px solid var(--border-dim);
+  border-radius: var(--radius-md);
+  padding: 3px;
+  gap: 4px;
+}
+
+.nav-btn {
+  background: transparent;
+  border: none;
+  color: var(--text-secondary);
+  padding: 6px 14px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: all var(--transition-fast);
+}
+
+.nav-btn:hover {
+  color: var(--text-main);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.nav-btn.active {
+  background: var(--bg-card);
+  color: var(--accent-cyan);
+  border: 1px solid var(--border-subtle);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+}
+
+.nav-btn .pill-counter {
+  font-size: 0.68rem;
+  background: var(--accent-red-dim);
+  color: var(--accent-red);
+  padding: 1px 5px;
+  border-radius: 10px;
+  font-family: var(--font-mono);
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.telemetry-status {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  background: var(--bg-card);
+  padding: 4px 10px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-dim);
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent-emerald);
+  box-shadow: 0 0 6px rgba(16, 185, 129, 0.5);
+  animation: pulse-dot 2s infinite ease-in-out;
+}
+
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(0.9); }
+}
+
+.btn-tactical {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-secondary);
+  padding: 6px 12px;
+  font-size: 0.78rem;
+  font-family: var(--font-mono);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all var(--transition-fast);
+}
+
+.btn-tactical:hover {
+  background: var(--bg-card-hover);
+  color: var(--text-main);
+  border-color: var(--border-focus);
+}
+
+.btn-tactical.primary {
+  background: rgba(56, 189, 248, 0.1);
+  border-color: rgba(56, 189, 248, 0.4);
+  color: var(--accent-cyan);
+}
+
+.btn-tactical.primary:hover {
+  background: rgba(56, 189, 248, 0.2);
+  border-color: var(--accent-cyan);
+}
+
+.btn-tactical.danger {
+  background: var(--accent-red-dim);
+  border-color: rgba(239, 68, 68, 0.4);
+  color: var(--accent-red);
+}
+
+/* ==========================================================================
+   MAIN VIEW CONTAINER & TABS
+   ========================================================================== */
+.view-container {
+  padding: 1.25rem;
+  display: none;
+  min-height: calc(100vh - 60px);
+}
+
+.view-container.active-view {
+  display: block;
+}
+
+/* ==========================================================================
+   VIEW 1: CTI SECURITY ACTIVITY MONITOR (SOC COMMAND)
+   ========================================================================== */
+.soc-grid {
+  display: grid;
+  grid-template-columns: 290px 1fr 340px;
+  gap: 1.25rem;
+  min-height: calc(100vh - 90px);
+}
+
+.soc-column {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.panel-card {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-dim);
+  border-radius: var(--radius-md);
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  box-shadow: var(--shadow-panel);
+}
+
+.panel-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--border-dim);
+  margin-bottom: 0.75rem;
+}
+
+.panel-title {
+  font-size: 0.82rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.panel-title svg {
+  color: var(--accent-cyan);
+}
+
+/* Metrics Cards Grid */
+.metrics-row {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.metric-stat-box {
+  background: var(--bg-card);
+  border: 1px solid var(--border-dim);
+  border-radius: var(--radius-sm);
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+}
+
+.metric-stat-box .label {
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+}
+
+.metric-stat-box .value {
+  font-size: 1.2rem;
+  font-weight: 700;
+  font-family: var(--font-mono);
+  color: var(--text-main);
+  margin-top: 2px;
+}
+
+.metric-stat-box .meta {
+  font-size: 0.65rem;
+  color: var(--accent-cyan);
+  margin-top: 2px;
+}
+
+/* GAT Attention Controls & Layer Selectors */
+.gat-controls-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--bg-card);
+  padding: 8px 12px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-dim);
+  margin-bottom: 8px;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.gat-heads-selector {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.head-chip {
+  background: var(--bg-primary);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-secondary);
+  font-size: 0.72rem;
+  font-family: var(--font-mono);
+  padding: 3px 8px;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.head-chip:hover {
+  color: var(--text-main);
+  border-color: var(--accent-cyan);
+}
+
+.head-chip.active {
+  background: var(--accent-cyan-dim);
+  border-color: var(--accent-cyan);
+  color: var(--accent-cyan);
+  font-weight: 600;
+}
+
+/* Graph Canvas Container */
+.canvas-wrapper {
+  position: relative;
+  width: 100%;
+  flex: 1;
+  min-height: 480px;
+  background: radial-gradient(circle at center, #111726 0%, #0a0e17 100%);
+  border: 1px solid var(--border-dim);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+#gatCanvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  cursor: grab;
+}
+
+#gatCanvas:active {
+  cursor: grabbing;
+}
+
+.canvas-overlay-hud {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background: rgba(10, 13, 20, 0.85);
+  backdrop-filter: blur(8px);
+  border: 1px solid var(--border-dim);
+  border-radius: var(--radius-sm);
+  padding: 8px 12px;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--text-secondary);
+  pointer-events: none;
+}
+
+.canvas-overlay-hud .hud-line {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 3px;
+}
+
+.canvas-overlay-hud .hud-line:last-child {
+  margin-bottom: 0;
+}
+
+.canvas-overlay-legend {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  background: rgba(10, 13, 20, 0.85);
+  backdrop-filter: blur(8px);
+  border: 1px solid var(--border-dim);
+  border-radius: var(--radius-sm);
+  padding: 8px 12px;
+  display: flex;
+  gap: 12px;
+  font-size: 0.7rem;
+  color: var(--text-secondary);
+  pointer-events: none;
+  flex-wrap: wrap;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.legend-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.canvas-quick-actions {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.canvas-btn {
+  background: rgba(16, 21, 34, 0.88);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-secondary);
+  width: 28px;
+  height: 28px;
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition-fast);
+}
+
+.canvas-btn:hover {
+  background: var(--bg-card-hover);
+  color: var(--accent-cyan);
+  border-color: var(--accent-cyan);
+}
+
+/* Activity Intercept Log (Left Column) */
+.activity-feed-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  overflow-y: auto;
+  max-height: 480px;
+  padding-right: 4px;
+}
+
+.activity-feed-item {
+  background: var(--bg-card);
+  border: 1px solid var(--border-dim);
+  border-left: 3px solid var(--text-muted);
+  border-radius: var(--radius-sm);
+  padding: 8px 10px;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.activity-feed-item:hover {
+  background: var(--bg-card-hover);
+  border-color: var(--border-subtle);
+}
+
+.activity-feed-item.sev-critical {
+  border-left-color: var(--accent-red);
+}
+.activity-feed-item.sev-high {
+  border-left-color: var(--accent-amber);
+}
+.activity-feed-item.sev-medium {
+  border-left-color: var(--accent-blue);
+}
+.activity-feed-item.sev-low {
+  border-left-color: var(--accent-emerald);
+}
+
+.activity-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 4px;
+}
+
+.activity-badge {
+  font-size: 0.65rem;
+  font-family: var(--font-mono);
+  padding: 1px 5px;
+  border-radius: 2px;
+  text-transform: uppercase;
+}
+
+.badge-critical {
+  background: var(--accent-red-dim);
+  color: var(--accent-red);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+}
+.badge-high {
+  background: var(--accent-amber-dim);
+  color: var(--accent-amber);
+  border: 1px solid rgba(245, 158, 11, 0.3);
+}
+.badge-medium {
+  background: var(--accent-cyan-dim);
+  color: var(--accent-cyan);
+  border: 1px solid rgba(56, 189, 248, 0.3);
+}
+.badge-low {
+  background: var(--accent-emerald-dim);
+  color: var(--accent-emerald);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+.activity-time {
+  font-size: 0.65rem;
+  font-family: var(--font-mono);
+  color: var(--text-muted);
+}
+
+.activity-title {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--text-main);
+  line-height: 1.3;
+  margin-bottom: 4px;
+}
+
+.activity-meta {
+  font-size: 0.68rem;
+  font-family: var(--font-mono);
+  color: var(--text-secondary);
+  display: flex;
+  justify-content: space-between;
+}
+
+/* Right Column: Node Details & GAT Attention Dossier */
+.dossier-card {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.dossier-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 200px;
+  color: var(--text-muted);
+  text-align: center;
+  font-size: 0.78rem;
+  gap: 8px;
+}
+
+.dossier-content {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.dossier-header-badge {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--bg-card);
+  padding: 8px 10px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-dim);
+}
+
+.dossier-node-title {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--text-main);
+  font-family: var(--font-mono);
+}
+
+.dossier-node-type {
+  font-size: 0.7rem;
+  color: var(--accent-cyan);
+  text-transform: uppercase;
+}
+
+.threat-score-gauge-box {
+  background: var(--bg-card);
+  border: 1px solid var(--border-dim);
+  border-radius: var(--radius-sm);
+  padding: 10px;
+}
+
+.threat-score-gauge-bar {
+  height: 8px;
+  background: var(--bg-primary);
+  border-radius: 4px;
+  overflow: hidden;
+  margin-top: 6px;
+  position: relative;
+}
+
+.threat-score-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #10b981 0%, #f59e0b 50%, #ef4444 100%);
+  width: 0%;
+  transition: width 0.5s ease;
+}
+
+.attention-neighbors-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  max-height: 180px;
+  overflow-y: auto;
+}
+
+.attn-neighbor-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--bg-card);
+  padding: 6px 8px;
+  border-radius: var(--radius-sm);
+  font-size: 0.72rem;
+  font-family: var(--font-mono);
+}
+
+.attn-coeff {
+  color: var(--accent-cyan);
+  font-weight: 600;
+}
+
+/* ==========================================================================
+   VIEW 2: FAKE DARK WEB SIMULATOR ("SHADOWNET TOR BROWSER")
+   ========================================================================== */
+.darkweb-browser-window {
+  background: var(--bg-darkweb-browser);
+  border: 1px solid var(--border-darkweb);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-elevation);
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 100px);
+  overflow: hidden;
+}
+
+/* Tor Onion Browser Window Chrome */
+.browser-chrome {
+  background: #0f121a;
+  border-bottom: 1px solid var(--border-darkweb);
+  padding: 8px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.browser-tabs-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.browser-tab {
+  background: #151a24;
+  border: 1px solid var(--border-dim);
+  border-bottom: none;
+  padding: 6px 14px;
+  border-radius: 6px 6px 0 0;
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  max-width: 220px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: all var(--transition-fast);
+}
+
+.browser-tab:hover {
+  background: #1b212e;
+  color: var(--text-main);
+}
+
+.browser-tab.active {
+  background: var(--bg-darkweb-browser);
+  border-color: var(--border-darkweb);
+  color: var(--accent-indigo);
+  font-weight: 600;
+}
+
+.browser-tab-close {
+  opacity: 0.5;
+  font-size: 0.8rem;
+}
+.browser-tab-close:hover {
+  opacity: 1;
+}
+
+.browser-nav-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.browser-nav-buttons {
+  display: flex;
+  gap: 4px;
+}
+
+.browser-icon-btn {
+  background: transparent;
+  border: 1px solid var(--border-dim);
+  color: var(--text-secondary);
+  width: 28px;
+  height: 28px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.browser-icon-btn:hover {
+  background: var(--bg-card);
+  color: var(--text-main);
+}
+
+.browser-url-bar {
+  flex: 1;
+  background: #090c12;
+  border: 1px solid var(--border-darkweb);
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  padding: 4px 10px;
+  gap: 8px;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--text-main);
+}
+
+.onion-badge {
+  background: rgba(168, 85, 247, 0.15);
+  border: 1px solid rgba(168, 85, 247, 0.35);
+  color: #c084fc;
+  font-size: 0.65rem;
+  padding: 1px 6px;
+  border-radius: 3px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.onion-badge::before {
+  content: "";
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  background: #c084fc;
+  border-radius: 50%;
+}
+
+.circuit-display {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.68rem;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  background: #141822;
+  padding: 3px 8px;
+  border-radius: 3px;
+  border: 1px solid var(--border-dim);
+}
+
+/* Dark Web Page Viewport */
+.browser-viewport {
+  flex: 1;
+  overflow-y: auto;
+  padding: 1.5rem;
+  background: #0c0f17;
+}
+
+.darkweb-page {
+  display: none;
+}
+.darkweb-page.active-page {
+  display: block;
+}
+
+/* Darknet Market / Forum Styling */
+.darknet-banner {
+  background: #131722;
+  border: 1px solid var(--border-darkweb);
+  border-radius: var(--radius-md);
+  padding: 1rem 1.25rem;
+  margin-bottom: 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.darknet-banner-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  color: #e2e8f0;
+}
+
+.darknet-banner-sub {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+.darknet-security-warning {
+  background: rgba(245, 158, 11, 0.08);
+  border: 1px solid rgba(245, 158, 11, 0.25);
+  border-radius: var(--radius-sm);
+  padding: 8px 12px;
+  font-size: 0.72rem;
+  color: #fbbf24;
+  margin-bottom: 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.darknet-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 1.25rem;
+}
+
+.forum-threads-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.forum-thread-card {
+  background: #141924;
+  border: 1px solid var(--border-darkweb);
+  border-radius: var(--radius-sm);
+  padding: 12px;
+  transition: all var(--transition-fast);
+  cursor: pointer;
+}
+
+.forum-thread-card:hover {
+  background: #19202e;
+  border-color: #3b455b;
+}
+
+.thread-tag-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 6px;
+}
+
+.thread-tag {
+  font-size: 0.65rem;
+  font-family: var(--font-mono);
+  background: #1e2535;
+  color: #94a3b8;
+  padding: 1px 6px;
+  border-radius: 2px;
+}
+
+.thread-tag.exploit {
+  background: rgba(239, 68, 68, 0.15);
+  color: #f87171;
+}
+.thread-tag.database {
+  background: rgba(56, 189, 248, 0.15);
+  color: #38bdf8;
+}
+.thread-tag.ransomware {
+  background: rgba(168, 85, 247, 0.15);
+  color: #c084fc;
+}
+
+.thread-title {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: #f1f5f9;
+  margin-bottom: 6px;
+}
+
+.thread-snippet {
+  font-size: 0.74rem;
+  color: #94a3b8;
+  line-height: 1.4;
+  margin-bottom: 8px;
+}
+
+.thread-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.68rem;
+  font-family: var(--font-mono);
+  color: var(--text-muted);
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  padding-top: 6px;
+}
+
+.thread-actor {
+  color: #c084fc;
+}
+
+/* Post Threat Form in Forum */
+.post-threat-panel {
+  background: #141924;
+  border: 1px solid var(--border-darkweb);
+  border-radius: var(--radius-md);
+  padding: 1rem;
+}
+
+.post-threat-title {
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.darknet-form-group {
+  margin-bottom: 10px;
+}
+
+.darknet-form-group label {
+  display: block;
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  margin-bottom: 4px;
+  font-family: var(--font-mono);
+}
+
+.darknet-input, .darknet-select, .darknet-textarea {
+  width: 100%;
+  background: #090c12;
+  border: 1px solid var(--border-darkweb);
+  border-radius: var(--radius-sm);
+  color: var(--text-main);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  padding: 6px 8px;
+}
+
+.darknet-input:focus, .darknet-select:focus, .darknet-textarea:focus {
+  outline: none;
+  border-color: var(--accent-indigo);
+}
+
+.darknet-textarea {
+  resize: vertical;
+  min-height: 60px;
+}
+
+/* Marketplace Products Grid */
+.market-products-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 12px;
+}
+
+.market-item-card {
+  background: #141924;
+  border: 1px solid var(--border-darkweb);
+  border-radius: var(--radius-sm);
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.market-item-title {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--text-main);
+  margin-bottom: 4px;
+}
+
+.market-item-vendor {
+  font-size: 0.7rem;
+  font-family: var(--font-mono);
+  color: #a855f7;
+  margin-bottom: 8px;
+}
+
+.market-item-price {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #f59e0b;
+  font-family: var(--font-mono);
+}
+
+/* Ransomware Dumps Site */
+.ransom-victim-card {
+  background: #141924;
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  border-radius: var(--radius-sm);
+  padding: 14px;
+  margin-bottom: 12px;
+}
+
+.ransom-victim-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.victim-name {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text-main);
+}
+
+.victim-timer {
+  background: var(--accent-red-dim);
+  border: 1px solid rgba(239, 68, 68, 0.4);
+  color: var(--accent-red);
+  padding: 2px 8px;
+  border-radius: 3px;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+}
+
+/* ==========================================================================
+   VIEW 3: SPLIT OPERATIONS MODE (DUAL INTERACTIVE COCKPIT)
+   ========================================================================== */
+.split-cockpit-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem;
+  height: calc(100vh - 90px);
+}
+
+.split-side {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-dim);
+  border-radius: var(--radius-md);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: var(--shadow-panel);
+}
+
+.split-side-header {
+  background: var(--bg-card);
+  padding: 8px 14px;
+  border-bottom: 1px solid var(--border-dim);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.split-side-title {
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.split-side-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* ==========================================================================
+   VIEW 4: ARCHITECTURE & GAT MATHEMATICAL SPECIFICATIONS
+   ========================================================================== */
+.docs-container {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.docs-hero {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-dim);
+  border-radius: var(--radius-md);
+  padding: 1.5rem;
+}
+
+.docs-hero h2 {
+  font-size: 1.4rem;
+  color: var(--text-main);
+  margin-bottom: 6px;
+}
+
+.docs-hero p {
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+  line-height: 1.6;
+}
+
+.docs-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.25rem;
+}
+
+.docs-card {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-dim);
+  border-radius: var(--radius-md);
+  padding: 1.25rem;
+}
+
+.docs-card h3 {
+  font-size: 1rem;
+  color: var(--accent-cyan);
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.docs-card p {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin-bottom: 10px;
+}
+
+.math-formula-box {
+  background: #07090e;
+  border: 1px solid var(--border-subtle);
+  border-left: 3px solid var(--accent-cyan);
+  border-radius: var(--radius-sm);
+  padding: 10px 14px;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: #38bdf8;
+  margin: 8px 0;
+  overflow-x: auto;
+}
+
+.spec-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+}
+
+.spec-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.spec-list li::before {
+  content: "•";
+  color: var(--accent-cyan);
+  font-weight: bold;
+}
+
+/* Modal for IOC Details & STIX Export */
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(4px);
+  z-index: 200;
+  display: none;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-backdrop.show {
+  display: flex;
+}
+
+.modal-dialog {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  width: 90%;
+  max-width: 650px;
+  box-shadow: var(--shadow-elevation);
+  display: flex;
+  flex-direction: column;
+  max-height: 85vh;
+}
+
+.modal-header {
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border-dim);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.modal-title {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--text-main);
+}
+
+.modal-body {
+  padding: 16px;
+  overflow-y: auto;
+}
+
+.modal-footer {
+  padding: 12px 16px;
+  border-top: 1px solid var(--border-dim);
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+/* Toast Notifications */
+.toast-container {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 300;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  pointer-events: none;
+}
+
+.toast {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-subtle);
+  border-left: 3px solid var(--accent-cyan);
+  border-radius: var(--radius-sm);
+  padding: 10px 14px;
+  font-size: 0.75rem;
+  color: var(--text-main);
+  box-shadow: var(--shadow-elevation);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  animation: slide-in 0.25s ease-out;
+  pointer-events: auto;
+}
+
+@keyframes slide-in {
+  from { transform: translateX(100%); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+.toast.critical {
+  border-left-color: var(--accent-red);
+}
+
+/* Responsive queries */
+@media (max-width: 1200px) {
+  .soc-grid {
+    grid-template-columns: 240px 1fr 280px;
+  }
+}
+
+@media (max-width: 900px) {
+  .soc-grid {
+    grid-template-columns: 1fr;
+  }
+  .split-cockpit-grid {
+    grid-template-columns: 1fr;
+    height: auto;
+  }
+  .docs-grid {
+    grid-template-columns: 1fr;
+  }
+}
